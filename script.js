@@ -1,28 +1,30 @@
-// Handle Login
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-  event.preventDefault();
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-
-  if (username === 'user' && password === 'password123') {
-    window.location.href = 'instructions.html'; // Redirect to instructions page
+// Wait until the DOM content is fully loaded
+document.addEventListener("DOMContentLoaded", function() {
+  // Accept and Continue Button
+  const acceptButton = document.getElementById('acceptBtn');
+  
+  // Ensure the button exists before attaching the event listener
+  if (acceptButton) {
+    acceptButton.addEventListener('click', function() {
+      window.location.href = 'details.html'; // Redirect to personal details page
+    });
   } else {
-    document.getElementById('errorMessage').textContent = 'Invalid credentials, please try again.';
+    console.error('Button with id "acceptBtn" not found.');
   }
-});
 
-// Accept and Continue Button
-document.getElementById('acceptBtn').addEventListener('click', function() {
-  window.location.href = 'details.html'; // Redirect to personal details page
-});
+  // Handle Voice Recording (If you have a "startRecording" button)
+  const startRecordingBtn = document.getElementById('startRecording');
+  if (startRecordingBtn) {
+    startRecordingBtn.addEventListener('click', function() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.start();
 
-// Handle Voice Recording
-document.getElementById('startRecording').addEventListener('click', function() {
-  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-  recognition.start();
-
-  recognition.onresult = function(event) {
-    const transcript = event.results[0][0].transcript;
-    document.getElementById('answer1').value = transcript;
-  };
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById('answer1').value = transcript;
+      };
+    });
+  } else {
+    console.error('Button with id "startRecording" not found.');
+  }
 });
